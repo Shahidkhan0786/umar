@@ -1,0 +1,5 @@
+django
+widget_tweaks
+crispy_forms
+tinymce
+django-registration-redux
