@@ -31,4 +31,7 @@ urlpatterns = [
     path('payment/' , views.payment),
     path('profile/<int:pk>/' , views.ProfileDetailView.as_view()),
     path('profile/edit/<int:pk>/', views.ProfileUpdateView.as_view(success_url="/")),
+    path('ordershis/' , views.orders_history),
+    path('cancel/<int:id>/' , views.cancelord),
+    path('orderd/' , views.orderss_detail),
 ]

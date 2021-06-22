@@ -48,7 +48,7 @@ class MyProfile(models.Model):
     gender = models.CharField(max_length=20, default="female", choices=(("male","male"), ("female","female")))
     phone_no = models.CharField(max_length=15, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    pic=models.ImageField(upload_to = "uploads", null=True)
+    pic=models.ImageField(upload_to = "", null=True)
 
     def __str__(self):
         return "%s" % self.user
@@ -68,5 +68,9 @@ class orders(models.Model):
         verbose_name = 'video'
         verbose_name_plural = 'videos'
 
+
+    @property
+    def user_name(self):
+        return self.client.user.username
     def __str__(self):
         return self.service

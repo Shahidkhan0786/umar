@@ -21,10 +21,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/about/">About Us</a>
                     </li>
+                    {% if request.user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="/profile/{{ user.myprofile.id }}">Profile</a>
                     </li>
-
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ordershis/">Orders</a>
+                    </li>
+                    {% endif %}
                     {% if request.user.is_authenticated %}
                     <li class="nav-item">
                                <li class="nav-item">

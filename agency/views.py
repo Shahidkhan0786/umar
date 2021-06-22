@@ -7,12 +7,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
+from rest_framework.renderers import JSONRenderer
+
 from .models import MyProfile,orders
 from django.views.generic import UpdateView, DetailView
 from django.views.generic.detail import  DetailView
 from flydigital import settings
 # Create your views here.
-
+from . serializers import ordersSerializer
 
 def index(request):
     return render(request , 'agency/index.html')
@@ -114,6 +116,7 @@ class ProfileDetailView(DetailView):
         usr=MyProfile.objects.get(user = self.request.user)
         try:
             xt=orders.objects.filter(client=usr).first()
+            context['id'] = xt.id
             context['status'] = xt.status
             context['end'] = xt.finish_date
             context['time'] = xt.time
@@ -123,7 +126,40 @@ class ProfileDetailView(DetailView):
         return context
 
 
+
+def orders_history(request):
+    usr= request.user;
+    getord=MyProfile.objects.get(user = usr)
+    orderss=orders.objects.filter(client= getord)
+
+    dat = {'ord':orderss}
+    return render(request , 'agency/orderhistory.html' ,dat)
+
+
+def cancelord(request , id):
+
+    try:
+        instance=orders.objects.get(id = id)
+
+    except:
+        pass
+    return render(request , 'agency/payment.html')
+
+
+
+
+
+
 def payment(request):
     return render(request , 'agency/payment.html')
 def about(request):
     return render(request , 'agency/corporate.html')
+
+
+
+def orderss_detail(request):
+    stu = orders.objects.all()
+    serializer = ordersSerializer(stu,many=True)
+    json_data = JSONRenderer().render(serializer.data)
+    print(json_data)
+    return HttpResponse(json_data , content_type='application/json')
